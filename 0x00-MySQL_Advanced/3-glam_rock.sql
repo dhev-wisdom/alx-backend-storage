@@ -3,5 +3,5 @@
 SELECT band_name,
 IFNULL(TIMESTAMPDIFF(YEAR, formed, split), TIMESTAMPDIFF(YEAR, formed, 2022)) AS lifespan
 FROM metal_bands
-WHERE style LIKE %Glam Rock%
+WHERE style LIKE '%Glam Rock%'
 ORDER BY lifespan DESC;
