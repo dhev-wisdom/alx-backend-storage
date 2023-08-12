@@ -7,7 +7,7 @@ FOR EACH ROW
 BEGIN
 	UPDATE items
 	SET quantity = quantity - NEW.number
-	WHERE name = NEW.item_name AND quantity > 0;
+	WHERE name = NEW.item_name AND quantity > NEW.number;
 END;
 //
 DELIMITER;
