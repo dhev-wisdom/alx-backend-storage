@@ -1,5 +1,6 @@
 -- SQL script that creates a stored procedure ComputeAverageScoreForUser
 -- procedure  computes and store the average score for a student
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
 DELIMITER $$
 CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
 BEGIN
@@ -20,7 +21,7 @@ BEGIN
 		FETCH cur INTO score;
 		SET sum_scores = sum_scores + score;
 		SET total_scores = total_scores + 1;
-	END LOOP;
+	END LOOP read_loop;
 	CLOSE cur;
 
 	SET average = sum_scores / total_scores;
