@@ -18,7 +18,7 @@ BEGIN
 			LEAVE read_loop;
 		END IF;
 
-		SET weighted_avg = (SELECT SUM(C.score * P.weight)
+		SET weighted_avg = (SELECT SUM(C.score * P.weight) / SUM(P.weight)
 			FROM corrections AS C
 			JOIN projects AS P ON C.project_id = P.id
 			WHERE C.user_id = users_id
