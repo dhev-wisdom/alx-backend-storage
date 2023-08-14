@@ -6,7 +6,7 @@ BEGIN
 	DECLARE users_id INT;
 	DECLARE weighted_avg FLOAT;
 
-	DECLARE cur CURSOR FROM SELECT id from users;
+	DECLARE cur CURSOR FOR SELECT id from users;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET users_id = NULL;
 
 	OPEN cur;
