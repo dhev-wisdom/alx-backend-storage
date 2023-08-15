@@ -1,3 +1,2 @@
 // insert into collection 'school'
-mongo my_db
 db.school.insertOne({"name": "Holberton school"})
