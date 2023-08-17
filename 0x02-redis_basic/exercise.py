@@ -9,6 +9,24 @@ import uuid
 from typing import Callable, Union, Optional
 
 
+def replay(method: Callable) -> Callable:
+    """
+    function displays history of calls of a particular function
+    """
+    key = method.__qualname__
+    inputs = f"{key}:inputs"
+    outputs = f"{key}:outputs"
+    redis = method.__self__.redis
+    count = redis.get(key).decode("utf-8")
+    print(f"{key} was called {count} times")
+    inputList = redis.lrange(inputs, 0, -1)
+    outputList = redis.lrange(outputs, 0, -1)
+    zipped_redis = list(zip(inputList, outputList))
+    for i, j in zipped_redis:
+        attr = i.decode("utf-8")
+        data = j.decode("utf-8")
+        print(f"{key}(*{attr}) -> {data}")
+
 def call_history(method: Callable) -> Callable:
     """
     call_history decorator to store the history of inputs and outputs
