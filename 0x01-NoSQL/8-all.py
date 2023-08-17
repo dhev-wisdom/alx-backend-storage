@@ -8,6 +8,7 @@ def list_all(mongo_collection):
     """
     function lists all documents in a mongodb collection
     """
-    collections = mongo_collection.find({})
-    col_list = list(collections)
-    return col_list
+    cur = mongo_collection.find({})
+    document_list = list(cur)
+
+    return document_list
