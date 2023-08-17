@@ -9,6 +9,23 @@ import uuid
 from typing import Callable, Union, Optional
 
 
+def call_history(method: Callable) -> Callable:
+    """
+    call_history decorator to store the history of inputs and outputs
+    for a particular function
+    """
+    key = method.__qualname__
+    inputs = f"{key}:inputs"
+    outputs = f"{key}:outputs"
+
+    @wraps(method)
+    def wrapper(self, *arg, **kwarg):
+        self._redis.rpush(inputs, str(arg))
+        data = method(self, *arg, **kwarg)
+        self._redis.rpush(outputs, str(data))
+        return data
+    return wrapper
+
 def count_calls(method: Callable) -> Callable:
     """
     count_calls static method
@@ -34,6 +51,7 @@ class Cache(object):
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         store method
